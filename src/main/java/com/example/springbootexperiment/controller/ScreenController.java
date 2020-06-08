@@ -122,6 +122,11 @@ public class ScreenController {
                 screenCategoryIds.add(screenCategory.getId());
             });
 
+            List<ScreenCategory> res = screenCategoryRepository.findAllById(screenCategoryIds, Sort.by(Sort.Direction.ASC, "sequenceNumber"));
+            res.forEach(screenCategory -> {
+                System.out.println("===screen seq " + screenCategory.getSequenceNumber());
+            });
+
 //            System.out.println("====screen category ids " + screenCategoryIds.size());
 
             Sort sort = Sort.by(Sort.Direction.DESC, "sequenceNumber");
