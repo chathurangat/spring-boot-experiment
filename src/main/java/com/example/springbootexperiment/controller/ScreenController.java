@@ -5,6 +5,7 @@ import com.example.springbootexperiment.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -122,10 +123,18 @@ public class ScreenController {
                 screenCategoryIds.add(screenCategory.getId());
             });
 
-            List<ScreenCategory> res = screenCategoryRepository.findAllById(screenCategoryIds, Sort.by(Sort.Direction.ASC, "sequenceNumber"));
-            res.forEach(screenCategory -> {
+//            List<ScreenCategory> res = screenCategoryRepository.findAllById(screenCategoryIds, Sort.by(Sort.Direction.ASC, "sequenceNumber"));
+
+            Pageable pageable = PageRequest.of(0, 3, Sort.by("sequenceNumber"));
+            Page<ScreenCategory> res = screenCategoryRepository.findAllById(screenCategoryIds, pageable);
+
+            res.getContent().forEach(screenCategory -> {
                 System.out.println("===screen seq " + screenCategory.getSequenceNumber());
             });
+
+            System.out.println("total pages " + res.getTotalPages());
+            System.out.println("total elements " + res.getTotalElements());
+            System.out.println("next page " + res.nextPageable().getPageNumber());
 
 //            System.out.println("====screen category ids " + screenCategoryIds.size());
 
