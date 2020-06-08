@@ -111,27 +111,10 @@ public class ScreenController {
         //adding list of categories to screen
         createdScreen.setCategories(screenCategoryList);
         screenRepository.save(createdScreen);
-
     }
-
-
-    @Autowired
-    private MongoOperations mongoOperations;
 
     @GetMapping("/screens/{screen-id}")
     public void getScreen(@PathVariable("screen-id") String screenId) {
-        System.out.println("====getting screen ");
-
-//        Sort sort = Sort.by(Sort.Direction.DESC, "categories.$sequenceNumber");
-//        Screen screen = screenRepository.findScreenBy(screenId, sort);
-//
-//        System.out.println("====screen found " + screen.getName());
-//        System.out.println("====screen found " + screen.getCategories().size());
-//
-//        screen.getCategories().forEach(screenCategory -> {
-//            System.out.println(" screen category [" + screenCategory.getSequenceNumber() + "]");
-//        });
-
         Optional<Screen> screenOptional = screenRepository.findById(screenId);
         if (screenOptional.isPresent()) {
             System.out.println("==== getting the categories");
@@ -142,34 +125,6 @@ public class ScreenController {
 
             System.out.println("====screen category ids " + screenCategoryIds.size());
 
-
-//            Sort sort = Sort.by(Sort.Direction.ASC, "sequenceNumber");
-//            Iterable<ScreenCategory> screenCategories = screenCategoryRepository.findAllById(screenCategoryIds, sort);
-//            screenCategories.forEach(screenCategory -> {
-//                System.out.println(" [" + screenCategory.getCategory().getName() + "] order [" + screenCategory.getSequenceNumber() + "] ");
-//
-//
-////                Query clientData = new Query(Criteria.where("category.id").is(screenCategory.getCategory().getId()));
-////                clientData.with(Sort.by(Sort.Direction.DESC, "sequenceNumber"));
-////                clientData.limit(10);
-////
-////                List<ScreenCategory> screenCategoriesFound = mongoOperations.find(clientData, ScreenCategory.class);
-////                System.out.println(screenCategoriesFound.size());
-//            });
-
-
-//            Query clientData = new Query(Criteria.where("screen.id").is(screenId));
-//            clientData.with(Sort.by(Sort.Direction.ASC, "sequenceNumber"));
-//            clientData.limit(10);
-//            List<ScreenCategory> screenCategoriesFound = mongoOperations.find(clientData, ScreenCategory.class);
-
-
-//            Criteria find = Criteria.where("screen.id").is(screenId);
-//            Query query = new Query().addCriteria(find)
-//                    .with(Sort.by(Sort.Direction.DESC, "sequenceNumber"))
-//                    .limit(10);
-//            List<ScreenCategory> screenCategoriesFound = mongoOperations.find(query, ScreenCategory.class);
-
             Sort sort = Sort.by(Sort.Direction.DESC, "sequenceNumber");
             List<ScreenCategory> screenCategoriesFound = screenCategoryRepository.findAllCategoriesByScreenId(screenId, sort, 2);
 
@@ -177,8 +132,6 @@ public class ScreenController {
             screenCategoriesFound.forEach(screenCategory -> {
                 System.out.println("***** " + screenCategory.getSequenceNumber());
             });
-
         }
-
     }
 }
