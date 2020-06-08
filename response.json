@@ -1,0 +1,57 @@
+{
+  "data": [
+    {
+      "id": "screen_id",
+      "name": "screen_name",
+      "categories": [
+        {
+          "id": "id",
+          "name": "category_name1",
+          "sequence_no": 1,
+          "contents": [
+            {
+              "name": "content name",
+              "type": "movie",
+              "images": {
+                "type": "landscape",
+                "url": "www.google.lk"
+              }
+            },
+            {
+              "name": "content name",
+              "type": "movie",
+              "images": {
+                "type": "landscape",
+                "url": "www.google.lk"
+              }
+            },
+            {
+              "name": "content name",
+              "type": "movie",
+              "images": {
+                "type": "landscape",
+                "url": "www.google.lk"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "screen_id",
+      "name": "screen_name"
+    },
+    {
+      "id": "screen_id",
+      "name": "screen_name"
+    },
+    {
+      "id": "screen_id",
+      "name": "screen_name"
+    },
+    {
+      "id": "screen_id",
+      "name": "screen_name"
+    }
+  ]
+}
