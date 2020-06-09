@@ -29,6 +29,7 @@ public class ScreenController {
     private final MovieRepository movieRepository;
     private final TeledramaRepository teledramaRepository;
     private final CategoryContentRepository categoryContentRepository;
+    private ScreenResponseGenerator screenResponseGenerator;
 
     @Autowired
     public ScreenController(ScreenRepository screenRepository,
@@ -36,13 +37,15 @@ public class ScreenController {
                             ScreenCategoryRepository screenCategoryRepository,
                             MovieRepository movieRepository,
                             TeledramaRepository teledramaRepository,
-                            CategoryContentRepository categoryContentRepository) {
+                            CategoryContentRepository categoryContentRepository,
+                            ScreenResponseGenerator screenResponseGenerator) {
         this.screenRepository = screenRepository;
         this.categoryRepository = categoryRepository;
         this.screenCategoryRepository = screenCategoryRepository;
         this.movieRepository = movieRepository;
         this.teledramaRepository = teledramaRepository;
         this.categoryContentRepository = categoryContentRepository;
+        this.screenResponseGenerator = screenResponseGenerator;
     }
 
 //
@@ -210,15 +213,12 @@ public class ScreenController {
         categoryRepository.save(category);*/
     }
 
-    @Autowired
-    private ScreenResponseGenerator screenResponseGenerator;
-
     @GetMapping("/screens")
     public HomeScreenResponse getScreen() {
         List<Screen> screens = screenRepository.findAll();
-        Screen homeScreen = screens.stream().filter(screen -> screen.getName().equals("Home")).findFirst().get();
+        Screen homeScreen = screens.parallelStream().filter(screen -> screen.getName().equals("Home")).findFirst().get();
         List<ScreenCategory> screenCategories = screenCategoryRepository.findAllByScreen(homeScreen.getId(), Sort.by(Sort.Direction.ASC, "sequenceNumber"));
-        List<String> categoryIds = screenCategories.stream().map(ScreenCategory::getId).collect(Collectors.toList());
+        List<String> categoryIds = screenCategories.parallelStream().map(ScreenCategory::getId).collect(Collectors.toList());
         List<CategoryContent> categories = categoryContentRepository.findAllByCategory(categoryIds, Sort.by(Sort.Direction.ASC, "sequenceNumber"));
         return screenResponseGenerator.generate(screens, categories, homeScreen.getId());
     }
