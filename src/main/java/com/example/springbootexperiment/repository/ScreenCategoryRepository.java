@@ -16,4 +16,7 @@ public interface ScreenCategoryRepository extends CrudRepository<ScreenCategory,
 
     @Query(value = "{}")
     Page<ScreenCategory> findAllById(Iterable<String> var1, Pageable pageable);
+
+    @Query(value = "{}",fields="{'category' : 1 }")
+    List<ScreenCategory> findAllByScreen(String id, Sort sort);
 }

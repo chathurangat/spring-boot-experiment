@@ -1,21 +1,21 @@
 package com.example.springbootexperiment.model;
 
-import lombok.AccessLevel;
 import lombok.Data;
-import lombok.Setter;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.List;
 
 @Data
 @Document("movies")
-public class Movie extends Content {
+public class Movie {
 
-    public Movie() {
+    /*public Movie() {
         this.type = "movie";
-    }
+    }*/
 
+    @Id
+    private String id;
     private String producer;
     private List<ContentImage> images;
 }

@@ -1,7 +1,9 @@
 package com.example.springbootexperiment.controller;
 
 import com.example.springbootexperiment.model.*;
+import com.example.springbootexperiment.response.HomeScreenResponse;
 import com.example.springbootexperiment.repository.*;
+import com.example.springbootexperiment.transformer.ScreenResponseGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,17 +27,21 @@ public class ScreenController {
     private final ScreenCategoryRepository screenCategoryRepository;
     private final MovieRepository movieRepository;
     private final TeledramaRepository teledramaRepository;
+    private final CategoryContentRepository categoryContentRepository;
 
     @Autowired
     public ScreenController(ScreenRepository screenRepository,
                             CategoryRepository categoryRepository,
                             ScreenCategoryRepository screenCategoryRepository,
-                            MovieRepository movieRepository, TeledramaRepository teledramaRepository) {
+                            MovieRepository movieRepository,
+                            TeledramaRepository teledramaRepository,
+                            CategoryContentRepository categoryContentRepository) {
         this.screenRepository = screenRepository;
         this.categoryRepository = categoryRepository;
         this.screenCategoryRepository = screenCategoryRepository;
         this.movieRepository = movieRepository;
         this.teledramaRepository = teledramaRepository;
+        this.categoryContentRepository = categoryContentRepository;
     }
 
 //
@@ -170,15 +176,50 @@ public class ScreenController {
         contentImage2.setUrl("www.google.lk");
         contentImages.add(contentImage2);
 
-        Movie movie = new Movie();
-        movie.setTitle("Movie");
-        movie.setProducer("Producer");
-        movie.setImages(contentImages);
-        movieRepository.save(movie);
+        for (int i = 0; i < 20; i++) {
+            /*Movie movie = new Movie();
+            movie.setTitle("Movie " + i);
+            movie.setProducer("Producer");
+            movie.setImages(contentImages);
+            movieRepository.save(movie);
 
-        Teledrama teledrama = new Teledrama();
-        teledrama.setDirector("Director");
-        teledrama.setTitle("New Teledrama");
-        teledramaRepository.save(teledrama);
+            Teledrama teledrama = new Teledrama();
+            teledrama.setDirector("Director " + i);
+            teledrama.setTitle("New Teledrama " + i);
+            teledramaRepository.save(teledrama);*/
+        }
+
+
+    }
+
+    @PostMapping("/categoryContents")
+    public void createCategoryContent() {
+        CategoryContent content = new CategoryContent();
+        content.setSequenceNo(8);
+        Category category = categoryRepository.findById("5edf0a9720d9e40ba8f6b304").get();
+
+        content.setCategory(category);
+//        Movie movie = movieRepository.findById("5edf0d4b74a8706821463a80").get();
+        Teledrama movie = teledramaRepository.findById("5edf0d4b74a8706821463a81").get();
+//        content.setContent(movie);
+        CategoryContent categoryContent = categoryContentRepository.save(content);
+       /* List<CategoryContent> categoryContents =category.getContents();
+        categoryContents.add(categoryContent);
+        category.setContents(categoryContents);
+        categoryRepository.save(category);*/
+    }
+
+    @GetMapping("/screens")
+    public HomeScreenResponse getScreen(){
+        List<Screen> screens = screenRepository.findAll();
+        Screen homeScreen = screens.stream().filter(screen -> screen.getName().equals("Home")).findFirst().get();
+        List<ScreenCategory> screenCategories = screenCategoryRepository.findAllByScreen(homeScreen.getId(), Sort.by(Sort.Direction.ASC, "sequenceNumber"));
+        List<String> categoryIds = new ArrayList<>();
+        screenCategories.forEach(screenCategory -> categoryIds.add(screenCategory.getCategory().getId()));
+        List<CategoryContent> categories = categoryContentRepository.findAllByCategory(categoryIds, Sort.by(Sort.Direction.ASC, "sequenceNumber"));
+        /*categories.forEach(categoryContent -> {
+//            System.out.println(categoryContent.getContent());
+        });*/
+        return ScreenResponseGenerator.generate(screens,categories,homeScreen.getId());
     }
 }
