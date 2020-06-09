@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @RestController
 public class ScreenController {
@@ -209,17 +210,16 @@ public class ScreenController {
         categoryRepository.save(category);*/
     }
 
+    @Autowired
+    private ScreenResponseGenerator screenResponseGenerator;
+
     @GetMapping("/screens")
-    public HomeScreenResponse getScreen(){
+    public HomeScreenResponse getScreen() {
         List<Screen> screens = screenRepository.findAll();
         Screen homeScreen = screens.stream().filter(screen -> screen.getName().equals("Home")).findFirst().get();
         List<ScreenCategory> screenCategories = screenCategoryRepository.findAllByScreen(homeScreen.getId(), Sort.by(Sort.Direction.ASC, "sequenceNumber"));
-        List<String> categoryIds = new ArrayList<>();
-        screenCategories.forEach(screenCategory -> categoryIds.add(screenCategory.getCategory().getId()));
+        List<String> categoryIds = screenCategories.stream().map(ScreenCategory::getId).collect(Collectors.toList());
         List<CategoryContent> categories = categoryContentRepository.findAllByCategory(categoryIds, Sort.by(Sort.Direction.ASC, "sequenceNumber"));
-        /*categories.forEach(categoryContent -> {
-//            System.out.println(categoryContent.getContent());
-        });*/
-        return ScreenResponseGenerator.generate(screens,categories,homeScreen.getId());
+        return screenResponseGenerator.generate(screens, categories, homeScreen.getId());
     }
 }

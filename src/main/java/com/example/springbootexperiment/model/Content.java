@@ -15,5 +15,4 @@ public class Content {
     protected String type;
     protected String title;
     private List<ContentImage> images;
-
 }
