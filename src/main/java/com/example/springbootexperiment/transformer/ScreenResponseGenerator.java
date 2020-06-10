@@ -32,6 +32,7 @@ public class ScreenResponseGenerator {
                         Content.builder().type(categoryContent.getContent().getType())
                                 .categoryId(categoryContent.getCategory().getId())
                                 .title(categoryContent.getContent().getTitle())
+                                .images(categoryContent.getContent().getImages())
                                 .build())
                 .collect(Collectors.groupingBy(Content::getCategoryId));
 
