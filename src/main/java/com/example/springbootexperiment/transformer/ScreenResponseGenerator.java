@@ -6,10 +6,10 @@ import com.example.springbootexperiment.response.Category;
 import com.example.springbootexperiment.response.Content;
 import com.example.springbootexperiment.response.HomeScreenData;
 import com.example.springbootexperiment.response.HomeScreenResponse;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,6 +30,7 @@ public class ScreenResponseGenerator {
                         Content.builder().type(categoryContent.getContent().getType())
                                 .categoryId(categoryContent.getCategory().getId())
                                 .title(categoryContent.getContent().getTitle())
+                                .images(categoryContent.getContent().getImages())
                                 .build())
                 .collect(Collectors.groupingBy(Content::getCategoryId));
 
