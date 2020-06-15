@@ -1,0 +1,59 @@
+<VAST version="3.0">
+<Ad sequence="1">
+<InLine>
+<AdSystem>2.0</AdSystem>
+<AdTitle>ad-1</AdTitle>
+<Impression/>
+<Creatives>
+<Creative>
+<Linear>
+<Duration>00:00:15</Duration>
+<MediaFiles>
+<MediaFile delivery="progressive" type="video/mp4" width="1920" height="1080">
+<![CDATA[ http://d2qohgpffhaffh.cloudfront.net/Ads/AD-perfume-15.mp4 ]]>
+</MediaFile>
+</MediaFiles>
+</Linear>
+</Creative>
+</Creatives>
+</InLine>
+</Ad>
+<Ad sequence="2">
+<InLine>
+<AdSystem>2.0</AdSystem>
+<AdTitle>ad-2</AdTitle>
+<Impression/>
+<Creatives>
+<Creative>
+<Linear>
+<Duration>00:00:15</Duration>
+<MediaFiles>
+<MediaFile delivery="progressive" type="video/mp4" width="1920" height="1080">
+<![CDATA[ http://d2qohgpffhaffh.cloudfront.net/Ads/AD-polarbear-15.mp4 ]]>
+</MediaFile>
+</MediaFiles>
+</Linear>
+</Creative>
+</Creatives>
+</InLine>
+</Ad>
+<Ad sequence="3">
+<InLine>
+<AdSystem>2.0</AdSystem>
+<AdTitle>ad-3</AdTitle>
+<Impression/>
+<Creatives>
+<Creative>
+<Linear>
+<Duration>00:00:15</Duration>
+<MediaFiles>
+<MediaFile delivery="progressive" type="video/mp4" width="1920" height="1080">
+<![CDATA[ http://d2qohgpffhaffh.cloudfront.net/Ads/AD-robots-15.mp4 ]]>
+</MediaFile>
+</MediaFiles>
+</Linear>
+</Creative>
+</Creatives>
+</InLine>
+</Ad>
+</VAST>

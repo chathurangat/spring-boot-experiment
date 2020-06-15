@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -221,5 +222,23 @@ public class ScreenController {
         List<String> categoryIds = screenCategories.parallelStream().map(ScreenCategory::getId).collect(Collectors.toList());
         List<CategoryContent> categories = categoryContentRepository.findAllByCategory(categoryIds, Sort.by(Sort.Direction.ASC, "sequenceNumber"));
         return screenResponseGenerator.generate(screens, categories, homeScreen.getId());
+    }
+
+    @GetMapping(value = "/xml", produces = "application/xml")
+    public String getXML() throws IOException {
+        InputStream is = null;
+        is = new FileInputStream("/source/file.txt");
+//        is = new FileInputStream("/home/rmx-admin/workspace/OTT/spring-boot-experiment/src/main/java/com/example/springbootexperiment/controller/AdCampaig.txt");
+        StringBuilder sb;
+        try (BufferedReader buf = new BufferedReader(new InputStreamReader(is))) {
+            String line = buf.readLine();
+            sb = new StringBuilder();
+            while (line != null) {
+                sb.append(line).append("\n");
+                line = buf.readLine();
+            }
+        }
+        String fileAsString = sb.toString();
+        return fileAsString;
     }
 }
