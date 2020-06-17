@@ -9,10 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -22,6 +19,7 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 @RestController
+@CrossOrigin
 public class ScreenController {
 
     private final ScreenRepository screenRepository;
@@ -224,6 +222,7 @@ public class ScreenController {
         return screenResponseGenerator.generate(screens, categories, homeScreen.getId());
     }
 
+    @CrossOrigin
     @GetMapping(value = "/xml", produces = "application/xml")
     public String getXML() throws IOException {
         InputStream is = null;
